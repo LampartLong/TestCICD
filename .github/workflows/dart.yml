@@ -23,15 +23,10 @@ jobs:
         with:
           flutter-version: '3.3.7'
 
-      - name: Change working directory to project root
-        run: cd ${{ github.workspace }}
-
-      - name: Change working directory to Flutter project
-        run: cd test_ci_cd
-
       - name: Clean
         run: |
           cd ..
+          cd test_ci_cd
           flutter clean
 
       - name: Install dependencies
