@@ -19,13 +19,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
-      - name: Change working directory to project root
-        run: cd ${{ github.workspace }}
-
-      - name: Change working directory 1
-        run: cd test_ci_cd
-      - name: Change working directory 2
-        run: cd test_ci_cd
 
       - name: List files in current directory
         run: ls
@@ -43,13 +36,25 @@ jobs:
       
 
       - name: Clean
-        run: flutter clean
+        run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
+          flutter clean
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
+          flutter pub get
 
       - name: Build Android APK
-        run: flutter build apk --release
+        run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
+          flutter build apk --release
 
       - name: Build iOS IPA
-        run: flutter build ios --release --no-codesign
+        run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
+          flutter build ios --release --no-codesign
