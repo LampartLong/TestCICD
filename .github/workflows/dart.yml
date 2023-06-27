@@ -23,7 +23,7 @@ jobs:
         run: cd ${{ github.workspace }}
 
       - name: Change working directory to Flutter project
-        run: cd test_ci_cd
+        run: cd test_ci_cd/test_ci_cd
 
       - name: List files in current directory
         run: ls
