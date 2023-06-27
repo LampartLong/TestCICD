@@ -30,7 +30,9 @@ jobs:
         run: cd test_ci_cd
 
       - name: Clean
-        run: flutter clean
+        run: |
+          cd ..
+          flutter clean
 
       - name: Install dependencies
         run: flutter pub get
