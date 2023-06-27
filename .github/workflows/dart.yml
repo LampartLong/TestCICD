@@ -18,16 +18,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.3.7'
-
       - name: Change working directory to project root
         run: cd ${{ github.workspace }}
 
       - name: Change working directory to Flutter project
-        run: cd lib/test_ci_cd
+        run: cd test_ci_cd
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.3.7'
 
       - name: Clean
         run: flutter clean
