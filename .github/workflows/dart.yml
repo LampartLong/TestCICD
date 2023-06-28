@@ -42,14 +42,20 @@ jobs:
           cd test_ci_cd
           flutter pub get
 
-      # - name: Build Android APK
-      #   run: |
-      #     cd ${{ github.workspace }}
-      #     cd test_ci_cd
-      #     flutter build apk --release
-
-      - name: Build iOS IPA
+      - name: Build Android APK
         run: |
           cd ${{ github.workspace }}
           cd test_ci_cd
-          flutter build ipa --release --no-codesign
+          flutter build apk --release
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: My-App
+          path: build/app/outputs/apk/release/app-release.apk
+
+      # - name: Build iOS IPA
+      #   run: |
+      #     cd ${{ github.workspace }}
+      #     cd test_ci_cd
+      #     flutter build ipa --release --no-codesign
