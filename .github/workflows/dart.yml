@@ -47,12 +47,14 @@ jobs:
           cd ${{ github.workspace }}
           cd test_ci_cd
           flutter build apk --release
+      - name: Check
+        run: ls
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v2
         with:
           name: My-App
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Build iOS IPA
       #   run: |
