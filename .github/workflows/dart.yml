@@ -56,6 +56,11 @@ jobs:
           name: My-App
           path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
+      # - name: Download APK Artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: My-App
+      #     path: path/to/download/directory
       # - name: Build iOS IPA
       #   run: |
       #     cd ${{ github.workspace }}
