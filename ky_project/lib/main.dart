@@ -22,11 +22,7 @@ class MyApp extends StatelessWidget {
       ],
       locale: const Locale('ja'),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          useMaterial3: true,
-          listTileTheme: listTileThemeData,
-          appBarTheme: appBarTheme,
-          bottomNavigationBarTheme: bottomNavigationBarThemeData),
+      theme: ThemeData(useMaterial3: true, listTileTheme: listTileThemeData, appBarTheme: appBarTheme, bottomNavigationBarTheme: bottomNavigationBarThemeData),
       initialRoute: AppRoutes.loading,
       getPages: AppRoutes.routes,
     );
