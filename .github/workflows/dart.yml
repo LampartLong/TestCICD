@@ -28,24 +28,24 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.3.7'
+          flutter-version: '3.10.1'
 
       - name: Clean
         run: |
           cd ${{ github.workspace }}
-          cd test_ci_cd
+          cd ky_project
           flutter clean
 
       - name: Install dependencies
         run: |
           cd ${{ github.workspace }}
-          cd test_ci_cd
+          cd ky_project
           flutter pub get
 
       - name: Build Android APK
         run: |
           cd ${{ github.workspace }}
-          cd test_ci_cd
+          cd ky_project
           flutter build apk --release
       - name: Check
         run: ls
@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: My-App
-          path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
+          path: ky_project/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Download APK Artifact
       #   uses: actions/download-artifact@v2
@@ -64,5 +64,5 @@ jobs:
       # - name: Build iOS IPA
       #   run: |
       #     cd ${{ github.workspace }}
-      #     cd test_ci_cd
+      #     cd ky_project
       #     flutter build ipa --release --no-codesign
