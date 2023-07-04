@@ -53,8 +53,6 @@ jobs:
           cd ${{ github.workspace }}
           cd ky_project
           flutter build apk --release --dart-define=STORE_FILE=$STORE_FILE --dart-define=KEY_ALIAS=$KEY_ALIAS --dart-define=STORE_PASSWORD=$STORE_PASSWORD --dart-define=KEY_PASSWORD=$KEY_PASSWORD
-      - name: Check
-        run: ls
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v2
