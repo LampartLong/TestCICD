@@ -60,10 +60,11 @@ packages:
   device_calendar:
     dependency: "direct main"
     description:
-      name: device_calendar
-      sha256: "5a1ce7887b4ffbaf3743078c8314dede5e694cddd69bab43f35ce815c5d82a7d"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "dev/change_flutter_native_timezone"
+      resolved-ref: "4c782ca932c09e5d11db97a8decb531aab1c4dcb"
+      url: "https://github.com/longtran2701/device_calendar.git"
+    source: git
     version: "4.3.1"
   fake_async:
     dependency: transitive
@@ -115,14 +116,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_native_timezone:
-    dependency: transitive
-    description:
-      name: flutter_native_timezone
-      sha256: ed7bfb982f036243de1c068e269182a877100c994f05143c8b26a325e28c1b02
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   flutter_speed_dial:
     dependency: "direct main"
     description:

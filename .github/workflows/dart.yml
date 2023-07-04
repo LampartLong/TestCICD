@@ -14,6 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      STORE_FILE: ${{ secrets.STORE_FILE }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -46,7 +52,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd ky_project
-          flutter build apk --release
+          flutter build apk --release --dart-define=STORE_FILE=$STORE_FILE --dart-define=KEY_ALIAS=$KEY_ALIAS --dart-define=STORE_PASSWORD=$STORE_PASSWORD --dart-define=KEY_PASSWORD=$KEY_PASSWORD
       - name: Check
         run: ls
 
