@@ -53,7 +53,7 @@ jobs:
         id: android_keystore
         uses: timheuer/base64-to-file@v1.0.3
         with:
-            fileName: upload-keystore.jks
+            fileName: test_android_keystore.jks
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
       - name: Create key.properties
         run: |
