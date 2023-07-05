@@ -44,14 +44,11 @@ jobs:
 
 
       - name: Download Android keystore
-        id: android_keystore
-        uses: timheuer/base64-to-file@v1.0.3
+        uses: appleboy/download-base64-action@master
         with:
-            fileName: test_android_keystore.jks
-            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
-
-      # - name: Set keystore base64 value
-      #   run: echo "KEYSTORE_BASE64=${{ steps.android_keystore.outputs.filePath }}" >> $GITHUB_ENV
+            name: test_android_keystore.jks
+            path: ${{ github.workspace }}/test_ci_cd
+            base64: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Create key.properties
         env:
