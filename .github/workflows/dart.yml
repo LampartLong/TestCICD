@@ -39,26 +39,26 @@ jobs:
       - name: Clean
         run: |
           cd ${{ github.workspace }}
-          cd ky_project
+          cd test_ci_cd
           flutter clean
 
       - name: Install dependencies
         run: |
           cd ${{ github.workspace }}
-          cd ky_project
+          cd test_ci_cd
           flutter pub get
 
       - name: Build Android APK
         run: |
           cd ${{ github.workspace }}
-          cd ky_project
+          cd test_ci_cd
           flutter build apk --release --dart-define=STORE_FILE=$STORE_FILE --dart-define=KEY_ALIAS=$KEY_ALIAS --dart-define=STORE_PASSWORD=$STORE_PASSWORD --dart-define=KEY_PASSWORD=$KEY_PASSWORD
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v2
         with:
           name: Ky Project
-          path: ky_project/build/app/outputs/flutter-apk/app-release.apk
+          path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Download APK Artifact
       #   uses: actions/download-artifact@v2
@@ -68,5 +68,5 @@ jobs:
       # - name: Build iOS IPA
       #   run: |
       #     cd ${{ github.workspace }}
-      #     cd ky_project
+      #     cd test_ci_cd
       #     flutter build ipa --release --no-codesign
