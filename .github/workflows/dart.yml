@@ -57,6 +57,8 @@ jobs:
             encodedString: ${{ secrets.KEYSTORE_BASE64 }}
       - name: Create key.properties
         run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
           echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
           echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
