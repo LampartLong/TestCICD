@@ -43,16 +43,22 @@ jobs:
           flutter pub get
 
 
-      - name: Download Android keystore
-        id: android_keystore
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-            fileName: test_android_keystore.jks
-            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+      # - name: Download Android keystore
+      #   id: android_keystore
+      #   uses: timheuer/base64-to-file@v1.0.3
+      #   with:
+      #       fileName: test_android_keystore.jks
+      #       encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo $CERTIFICATE_BASE64 | base64 --decode > test_android_keystore.jks
 
       - name: Create key.properties
         env:
-          STORE_FILE: ${{ steps.android_keystore.outputs.filePath }}
+          STORE_FILE: test_android_keystore.jks
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -64,17 +70,17 @@ jobs:
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
 
-      - name: Build Android APK
-        run: |
-          cd ${{ github.workspace }}
-          cd test_ci_cd
-          flutter build apk --release
+      # - name: Build Android APK
+      #   run: |
+      #     cd ${{ github.workspace }}
+      #     cd test_ci_cd
+      #     flutter build apk --release
 
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: Project
-          path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
+      # - name: Upload APK Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: Project
+      #     path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Download APK Artifact
       #   uses: actions/download-artifact@v2
