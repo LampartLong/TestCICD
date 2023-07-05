@@ -14,11 +14,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      STORE_FILE: ${{ secrets.STORE_FILE }}
-      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      KEY_PASSWORD: ""
+    # env:
+    #   STORE_FILE: ${{ secrets.STORE_FILE }}
+    #   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+    #   STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+    #   KEY_PASSWORD: "${{ secrets.KEY_PASSWORD }}"
 
     steps:
       - name: Checkout code
@@ -48,11 +48,25 @@ jobs:
           cd test_ci_cd
           flutter pub get
 
+
+      - name: Download Android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+            fileName: upload-keystore.jks
+            encodedString: ${{ secrets.KEYSTORE_BASE64 }}
+      - name: Create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+
       - name: Build Android APK
         run: |
           cd ${{ github.workspace }}
           cd test_ci_cd
-          flutter build apk --release --dart-define=STORE_FILE=$STORE_FILE --dart-define=KEY_ALIAS=$KEY_ALIAS --dart-define=STORE_PASSWORD=$STORE_PASSWORD --dart-define=KEY_PASSWORD=$KEY_PASSWORD
+          flutter build apk --release
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v2
