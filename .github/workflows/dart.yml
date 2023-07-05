@@ -73,7 +73,7 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Ky Project
+          name: Project
           path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Download APK Artifact
