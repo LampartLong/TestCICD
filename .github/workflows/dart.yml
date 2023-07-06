@@ -8,7 +8,7 @@ name: Dart
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: main
+          ref: develop
 
       - name: Set up Java
         uses: actions/setup-java@v1
@@ -50,15 +50,18 @@ jobs:
       #       fileName: test_android_keystore.jks
       #       encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
-      - name: Retrieve the secret and decode it to a file
-        env:
-          CERTIFICATE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      - name: Retrieve secret
+        run: echo ${{ secrets.YOUR_SECRET_NAME }} > secret.txt
+
+      - name: Decode secret
+        id: decode
         run: |
-          base64 --decode $CERTIFICATE_BASE64 > test_android_keystore.jks
+          base64 -d secret.txt > test_android_keystore.jks
+          echo "DECODED_FILE_PATH=test_android_keystore.jks" >> $GITHUB_ENV
 
       - name: Create key.properties
         env:
-          STORE_FILE: test_android_keystore.jks
+          STORE_FILE: ${{ steps.decode.outputs.decoded_file_path }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
