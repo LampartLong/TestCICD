@@ -51,7 +51,7 @@ jobs:
       #       encodedString: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: Retrieve secret
-        run: echo ${{ secrets.YOUR_SECRET_NAME }} > secret.txt
+        run: echo ${{ secrets.KEYSTORE_BASE64 }} > secret.txt
 
       - name: Decode secret
         id: decode
