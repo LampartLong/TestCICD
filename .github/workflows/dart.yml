@@ -64,7 +64,7 @@ jobs:
 
       - name: Create key.properties
         env:
-          STORE_FILE: ${{ steps.decode.outputs.decoded_file_path }}
+          STORE_FILE: ${{ env.DECODED_FILE_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
