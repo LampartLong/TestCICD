@@ -71,7 +71,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           cd test_ci_cd
-          echo "storeFile=${STORE_FILE}" >> android/key.properties
+          echo "storeFile=${STORE_FILE}" > android/key.properties
           echo "storePassword=${STORE_PASSWORD}" >> android/key.properties
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
