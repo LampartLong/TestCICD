@@ -1,0 +1,17 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows:
+      - "CI Pipeline"
+    types:
+      - completed
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+            with:
+              ref: develop
