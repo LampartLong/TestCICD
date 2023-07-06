@@ -76,17 +76,17 @@ jobs:
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
 
-      # - name: Build Android APK
-      #   run: |
-      #     cd ${{ github.workspace }}
-      #     cd test_ci_cd
-      #     flutter build apk --release
+      - name: Build Android APK
+        run: |
+          cd ${{ github.workspace }}
+          cd test_ci_cd
+          flutter build apk --release
 
-      # - name: Upload APK Artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: Project
-      #     path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Project
+          path: test_ci_cd/build/app/outputs/flutter-apk/app-release.apk
 
       # - name: Download APK Artifact
       #   uses: actions/download-artifact@v2
