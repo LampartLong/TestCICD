@@ -1,83 +1,47 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test_ci_cd/page/viewer_controller.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Interactive Viewer Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page 2'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late DateTime _selectedDate;
-  @override
-  void initState() {
-    _selectedDate = DateTime.now();
-    super.initState();
-    _showDatePicker(context);
-  }
-
-  DateTime selectedDateTime = DateTime.now();
-
-  void _showDatePicker(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDateTime,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-    );
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle textStyle = TextStyle(
-      fontSize: 16,
-      fontStyle: FontStyle.italic,
-      decoration: TextDecoration.none,
-      fontWeight: FontWeight.bold,
-      textBaseline: TextBaseline.alphabetic,
-    );
+    final controller = Get.put(ViewerController());
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Same Font Size DatePicker'),
+        title: const Text("Flutter Interactive Viewer"),
       ),
-      body: Center(
-          child: SizedBox(
-        width: 200,
-        height: 200,
-        child: CupertinoDatePicker(
-          mode: CupertinoDatePickerMode.time,
-          onDateTimeChanged: (DateTime newDate) {
-            setState(() {
-              _selectedDate = newDate;
-            });
-          },
-          backgroundColor: Colors.white, // Set background color
-          use24hFormat: true, // Set to true if using 24-hour format
+      body: InteractiveViewer(
+        transformationController: controller.transformationController,
+        minScale: 1,
+        maxScale: 4,
+        child: Image.network(
+          'https://tophinhanhdep.com/wp-content/uploads/2021/10/Beautiful-HD-Wallpapers.jpg',
         ),
-      )),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: controller.animateZoomToPosition,
+        child: const Icon(Icons.home),
+      ),
     );
   }
 }

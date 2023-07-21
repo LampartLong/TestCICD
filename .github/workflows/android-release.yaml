@@ -46,8 +46,8 @@ jobs:
       - name: Decode secret
         id: decode
         run: |
-          base64 -d secret.txt > ${{ github.workspace }}/test_ci_cd/android/app/test_android_keystore.jks
-          echo "DECODED_FILE_PATH=${{ github.workspace }}/test_ci_cd/android/app/test_android_keystore.jks" >> $GITHUB_ENV
+          base64 -d secret.txt > ${{ github.workspace }}/test_ci_cd/android/app/mykeystore.jks
+          echo "DECODED_FILE_PATH=${{ github.workspace }}/test_ci_cd/android/app/mykeystore.jks" >> $GITHUB_ENV
 
       - name: Create key.properties
         env:
