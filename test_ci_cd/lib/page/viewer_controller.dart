@@ -4,10 +4,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:ui' as ui;
 import 'package:test_ci_cd/face_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:test_ci_cd/model/photo_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 
 class ViewerController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -131,6 +134,69 @@ class ViewerController extends GetxController
     Future.delayed(delay, () {
       clickEnabled = true;
     });
+  }
+
+  cropImage() async {
+    Matrix4 matrix = transformationController.value;
+    double scaleX = matrix[0]; // Giá trị scale X
+    double scaleY = matrix[5]; // Giá trị scale Y
+    print('Scale X: $scaleX, Scale Y: $scaleY');
+    double transX = matrix[12]; // Giá trị dịch chuyển X
+    double transY = matrix[13]; // Giá trị dịch chuyển Y
+    print('TransX: $transX, TransY: $transY');
+
+    img.Image? imageA;
+    if (photoA != null) {
+      late Uint8List bytes;
+
+      if (photoA?.id == -1) {
+        File file = File(photoA!.url!);
+        bytes = await file.readAsBytes();
+      } else {
+        final response = await http.get(Uri.parse(photoA!.url!));
+        bytes = response.bodyBytes;
+      }
+      imageA = img.decodeImage(bytes);
+    }
+
+    final mergedImageWidth = 1080 ~/ scaleX;
+    final mergedImageHeight = mergedImageWidth ~/ 3 * 4;
+    final mergedImage = img.Image(mergedImageWidth, mergedImageHeight);
+    imageA = img.copyCrop(imageA!, transX.toInt(), transY.toInt(),
+        mergedImageWidth, mergedImageHeight);
+
+    final status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+
+    const downloadPath = "/storage/emulated/0/Download";
+    const fileName = 'merged_image.jpg'; // specify image name
+    File file = File('$downloadPath/$fileName');
+    if (!file.existsSync()) {
+      file.createSync();
+    }
+
+    file.writeAsBytesSync(img.encodeJpg(mergedImage));
+
+    // img.copyInto(mergedImage, imageA, dstX: 0, dstY: 0);
+    // final mergedImageHeight = imageA.height;
+
+    // final mergedImage = img.Image(mergedImageWidth, mergedImageHeight);
+
+    // img.copyInto(mergedImage, imageA, dstX: 0, dstY: 0);
+    // img.copyInto(mergedImage, imageB, dstX: imageA.width, dstY: 0);
+    // final downloadsDirectory =
+    //     await getExternalStorageDirectories(type: StorageDirectory.downloads);
+    // // final downloadPath = downloadsDirectory?.first.path;
+    // const downloadPath = "/storage/emulated/0/Download";
+    // const fileName = 'merged_image.jpg'; // specify image name
+
+    // final status = await Permission.storage.status;
+    // if (!status.isGranted) {
+    //   await Permission.storage.request();
+    // }
+    print("A ${DateTime.now()}");
   }
 
   Future<void> animateZoomToEyePosition() async {

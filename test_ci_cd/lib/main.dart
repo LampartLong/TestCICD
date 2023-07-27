@@ -34,16 +34,16 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          RepaintBoundary(
-              key: controller.globalKey,
-              child: InteractiveViewer(
-                transformationController: controller.transformationController,
-                minScale: 1,
-                maxScale: 4.0,
-                onInteractionStart: (details) {
-                  print("onInteractionStart");
-                  controller.showBox = false;
-                },
+          InteractiveViewer(
+              transformationController: controller.transformationController,
+              minScale: 1,
+              maxScale: 4.0,
+              onInteractionStart: (details) {
+                print("onInteractionStart");
+                controller.showBox = false;
+              },
+              child: RepaintBoundary(
+                key: controller.globalKey,
                 child: CachedNetworkImage(
                   imageUrl: controller.photoA!.url!,
                   placeholder: (context, child) => SizedBox(
@@ -104,6 +104,13 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          FloatingActionButton(
+            onPressed: () {
+              controller.cropImage();
+            },
+            child: const Icon(Icons.camera),
+          ),
+          const SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
               controller.capturePng();
